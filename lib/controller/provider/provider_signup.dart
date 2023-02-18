@@ -2,9 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import 'package:unskool/controller/provider/provider_bottomnav.dart';
+import 'package:unskool/controller/provider/provider_featured.dart';
+import 'package:unskool/controller/provider/provider_otp.dart';
+import 'package:unskool/model/siginin/signin_res_model.dart';
 import 'package:unskool/model/signup/signup_req_model.dart';
+import 'package:unskool/model/signup/signup_res_model.dart';
 import 'package:unskool/service/service_signup.dart';
-import 'package:unskool/view/screen/screen_home.dart';
+import 'package:unskool/view/screen/screen_bottomnav.dart';
+import 'package:unskool/view/screen/screen_otp.dart';
 
 class ProviderSignUp with ChangeNotifier {
   final nameController = TextEditingController();
@@ -12,6 +19,8 @@ class ProviderSignUp with ChangeNotifier {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
   bool isObscure = false;
+  bool hideConfirmPassword = false;
+
 //GOTO SIGNIN PAGE
   goToSignin(BuildContext context) {
     Navigator.pop(context);
@@ -69,8 +78,20 @@ class ProviderSignUp with ChangeNotifier {
     }
   }
 
+//HIDE TEXT IN CONFIRM PASSWORD
+  void hideConfirmPwd() {
+    if (!hideConfirmPassword) {
+      hideConfirmPassword = true;
+      notifyListeners();
+    } else {
+      hideConfirmPassword = false;
+      notifyListeners();
+    }
+  }
+
   //SIGNUP FUNCTION
   Future<void> signUpButtonFn(BuildContext context) async {
+    log('sign up fn');
     // const String email = '@gmail.com';
     SignUpReqModel signUp = SignUpReqModel(
       name: nameController.text,
@@ -78,16 +99,26 @@ class ProviderSignUp with ChangeNotifier {
       password: passwordController.text,
       confirmPassword: confirmPasswordController.text,
     );
-    await ServiceSignUp().signUp(signUp, context).then((value) {
+    ServiceSignUp().signUp(signUp, context).then((value) {
       log('function signup button');
       log(value.toString());
       if (value!.status == 200) {
         log('user created in backend');
         log(value.status.toString());
+        Provider.of<ProviderOtp>(context, listen: false).userResId =
+            value.userId;
+        notifyListeners();
+
+        log(Provider.of<ProviderOtp>(context, listen: false)
+            .userResId
+            .toString());
+
         Navigator.pushReplacement(
           context,
           PageTransition(
-            child: const ScreenHome(),
+            child: ScreenOtp(
+              userId: value.userId,
+            ),
             type: PageTransitionType.rightToLeftWithFade,
           ),
         );

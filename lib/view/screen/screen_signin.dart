@@ -13,9 +13,11 @@ class ScreenSignIn extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final providerWL = Provider.of<ProviderSignInScreen>(context);
     final providerWOL =
         Provider.of<ProviderSignInScreen>(context, listen: false);
     var height = MediaQuery.of(context).size.height;
+    var obscure = providerWL.isObscure;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -49,7 +51,7 @@ class ScreenSignIn extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SigninTextForm(
-                      maxLength: 20,
+                      maxLength: 30,
                       hintText: 'Enter Your Email',
                       prefixIcon: const FaIcon(
                         FontAwesomeIcons.solidEnvelope,
@@ -67,7 +69,17 @@ class ScreenSignIn extends StatelessWidget {
                       validator: (data) {
                         return value.passwordValidation(data);
                       },
-                      obscureText: true,
+                      obscureText: providerWOL.isObscure,
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          providerWOL.hidePassword();
+                        },
+                        icon: FaIcon(
+                          obscure
+                              ? FontAwesomeIcons.eye
+                              : FontAwesomeIcons.eyeSlash,
+                        ),
+                      ),
                     ),
                   ],
                 ),

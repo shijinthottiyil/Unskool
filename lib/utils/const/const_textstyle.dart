@@ -14,6 +14,13 @@ const textStyleSmlPurple = TextStyle(
   fontFamily: 'Inter',
 );
 
+const kInterBold12 = TextStyle(
+  fontSize: 12,
+  fontFamily: 'Inter',
+  color: kWhite,
+  fontWeight: FontWeight.bold,
+);
+
 const kInterSize10 = TextStyle(
   color: kWhite,
   fontSize: 10,

@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unskool/controller/provider/provider_bottomnav.dart';
+import 'package:unskool/controller/provider/provider_featured.dart';
+import 'package:unskool/controller/provider/provider_onboarding.dart';
+import 'package:unskool/controller/provider/provider_otp.dart';
 import 'package:unskool/controller/provider/provider_signinscreen.dart';
 import 'package:unskool/controller/provider/provider_signup.dart';
 import 'package:unskool/controller/provider/provider_splashscreen.dart';
 import 'package:unskool/utils/theme/dark/dark_theme.dart';
+import 'package:unskool/view/screen/screen_bottomnav.dart';
+import 'package:unskool/view/screen/screen_onboarding.dart';
+import 'package:unskool/view/screen/screen_otp.dart';
 import 'package:unskool/view/screen/screen_splash.dart';
 
 void main() {
@@ -31,7 +38,27 @@ class MyApp extends StatelessWidget {
           create: (context) {
             return ProviderSignUp();
           },
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return ProviderOnboarding();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return ProviderBottomnav();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return ProviderFeature();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return ProviderOtp();
+          },
+        ),
       ],
       child: MaterialApp(
         title: 'UNSKOOL',

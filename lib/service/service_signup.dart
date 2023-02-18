@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:unskool/utils/const/const_url.dart';
@@ -27,6 +28,7 @@ class ServiceSignUp {
     } on DioError catch (e) {
       log('signup error');
       log(e.message);
+
       log(e.response.toString());
       Exceptions().exceptions(e, context);
     }

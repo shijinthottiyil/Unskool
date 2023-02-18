@@ -3,7 +3,7 @@ import 'package:unskool/utils/const/const_colors.dart';
 
 class LightTheme {
   static ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.black,
+    scaffoldBackgroundColor: Colors.white,
     appBarTheme: const AppBarTheme(
       color: kWhite,
     ),

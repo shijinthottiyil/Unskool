@@ -9,10 +9,10 @@ class SigninTextForm extends StatelessWidget {
   final String? Function(String?)? validator;
   final String? suffixText;
   final Widget? suffixIcon;
-  bool obscureText = false;
+  final bool? obscureText;
   final void Function()? onTap;
   final int? maxLength;
-  SigninTextForm({
+  const SigninTextForm({
     super.key,
     required this.hintText,
     required this.prefixIcon,
@@ -29,7 +29,7 @@ class SigninTextForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       onTap: onTap,
-      obscureText: obscureText,
+      obscureText: obscureText ?? false,
       maxLength: maxLength ?? 10,
       controller: controller,
       validator: validator,
@@ -49,14 +49,14 @@ class SigninTextForm extends StatelessWidget {
           borderRadius: BorderRadius.zero,
           borderSide: BorderSide(
             color: kWhite,
-            width: 0.5,
+            width: 2,
           ),
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
           borderSide: BorderSide(
             color: kWhite,
-            width: 0.5,
+            width: 2,
           ),
         ),
       ),

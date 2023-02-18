@@ -8,10 +8,11 @@ class SignupTextform extends StatelessWidget {
   final String? Function(String?)? validator;
   final String? suffixText;
   final Widget? suffixIcon;
-  bool obscureText = false;
+  // bool obscureText = false;
+  final bool? obscureText;
   final void Function()? onTap;
   final int? maxLength;
-  SignupTextform({
+  const SignupTextform({
     super.key,
     required this.hintText,
     required this.prefixIcon,
@@ -27,8 +28,9 @@ class SignupTextform extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: 1,
       onTap: onTap,
-      obscureText: obscureText,
+      obscureText: obscureText ?? false,
       maxLength: maxLength ?? 10,
       controller: controller,
       validator: validator,
@@ -48,14 +50,14 @@ class SignupTextform extends StatelessWidget {
           borderRadius: BorderRadius.zero,
           borderSide: BorderSide(
             color: Colors.white,
-            width: 0.5,
+            width: 2,
           ),
         ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.zero,
           borderSide: BorderSide(
             color: Colors.white,
-            width: 0.5,
+            width: 2,
           ),
         ),
       ),

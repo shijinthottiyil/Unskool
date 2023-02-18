@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:unskool/utils/const/const_colors.dart';
+import 'package:unskool/utils/const/const_sizedbox.dart';
 import 'package:unskool/utils/const/const_textstyle.dart';
 import 'package:unskool/controller/provider/provider_signup.dart';
 import 'package:unskool/view/widget/signup/signup_textform.dart';
@@ -17,7 +18,9 @@ class ScreenSignUp extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     final providerWOL = Provider.of<ProviderSignUp>(context, listen: false);
     final providerWL = Provider.of<ProviderSignUp>(context);
-    var obsure = providerWL.isObscure;
+    var obscure = providerWL.isObscure;
+    var hideObscure = providerWL.hideConfirmPassword;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -49,71 +52,80 @@ class ScreenSignUp extends StatelessWidget {
             Consumer<ProviderSignUp>(builder: (context, value, child) {
               return Form(
                 key: formKey,
-                child: SizedBox(
-                  width: double.infinity,
-                  height: height * 0.45,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      SignupTextform(
-                        obscureText: false,
-                        controller: value.nameController,
-                        validator: (data) {
-                          return value.nameValidation(data);
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  // mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SignupTextform(
+                      obscureText: false,
+                      controller: value.nameController,
+                      validator: (data) {
+                        return value.nameValidation(data);
+                      },
+                      hintText: 'Enter Your Name',
+                      prefixIcon: const FaIcon(
+                        FontAwesomeIcons.solidUser,
+                      ),
+                    ),
+                    // kHeight10,
+                    SignupTextform(
+                      obscureText: false,
+                      validator: (data) {
+                        return value.emailValidation(data);
+                      },
+                      controller: value.emailController,
+                      hintText: 'Enter Your Email',
+                      prefixIcon: const FaIcon(
+                        FontAwesomeIcons.solidEnvelope,
+                      ),
+                      // suffixText: '@gmail.com',
+                      maxLength: 30,
+                    ),
+                    // kHeight10,
+                    SignupTextform(
+                      obscureText: providerWOL.isObscure,
+                      validator: (data) {
+                        return value.passwordValidation(data);
+                      },
+                      controller: value.passwordController,
+                      hintText: 'Enter Your Password',
+                      prefixIcon: const FaIcon(
+                        FontAwesomeIcons.lock,
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          providerWL.hideText();
                         },
-                        hintText: 'Enter Your Name',
-                        prefixIcon: const FaIcon(
-                          FontAwesomeIcons.solidUser,
+                        icon: FaIcon(
+                          obscure
+                              ? FontAwesomeIcons.eye
+                              : FontAwesomeIcons.eyeSlash,
                         ),
                       ),
-                      SignupTextform(
-                        obscureText: false,
-                        validator: (data) {
-                          return value.emailValidation(data);
-                        },
-                        controller: value.emailController,
-                        hintText: 'Enter Your Email',
-                        prefixIcon: const FaIcon(
-                          FontAwesomeIcons.solidEnvelope,
-                        ),
-                        // suffixText: '@gmail.com',
-                        maxLength: 30,
+                    ),
+                    // kHeight10,
+                    SignupTextform(
+                      obscureText: providerWOL.hideConfirmPassword,
+                      validator: (data) {
+                        return value.confirmPasswordValidation(data);
+                      },
+                      controller: value.confirmPasswordController,
+                      hintText: 'Confirm Your Password',
+                      prefixIcon: const FaIcon(
+                        FontAwesomeIcons.lock,
                       ),
-                      SignupTextform(
-                        obscureText: providerWOL.isObscure,
-                        validator: (data) {
-                          return value.passwordValidation(data);
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          providerWL.hideConfirmPwd();
                         },
-                        controller: value.passwordController,
-                        hintText: 'Enter Your Password',
-                        prefixIcon: const FaIcon(
-                          FontAwesomeIcons.lock,
-                        ),
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            providerWL.hideText();
-                          },
-                          icon: FaIcon(
-                            obsure
-                                ? FontAwesomeIcons.eye
-                                : FontAwesomeIcons.eyeSlash,
-                          ),
+                        icon: FaIcon(
+                          hideObscure
+                              ? FontAwesomeIcons.eye
+                              : FontAwesomeIcons.eyeSlash,
                         ),
                       ),
-                      SignupTextform(
-                        obscureText: true,
-                        validator: (data) {
-                          return value.confirmPasswordValidation(data);
-                        },
-                        controller: value.confirmPasswordController,
-                        hintText: 'Confirm Your Password',
-                        prefixIcon: const FaIcon(
-                          FontAwesomeIcons.lock,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               );
             }),
